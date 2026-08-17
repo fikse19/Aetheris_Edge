@@ -1,3 +1,5 @@
 git branch --show-current
 git status
 git checkout main
+git add .
+git commit -m "release: validated WSL build, wasm compatibility fix, and staging dry-run pass"
