@@ -17,3 +17,5 @@ git push origin v1.0.0
 
 # 4. Verify the tag reached GitHub
 git ls-remote --tags origin
+git config --global user.email "nathan@topcovergroup.com"
+git config --global user.name "fikse19"
