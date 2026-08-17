@@ -1,2 +1,3 @@
 git branch --show-current
 git status
+git checkout main
