@@ -17,18 +17,3 @@ git push origin v1.0.0
 
 # 4. Verify the tag reached GitHub
 git ls-remote --tags origin
-git config --global user.email "nathan@topcovergroup.com"
-git config --global user.name "fikse19"
-# 1. Rename initial branch to main
-git branch -M main
-
-# 2. Stage and commit files
-git add .
-git commit -m "Release v1.0.0"
-
-# 3. Create the version tag
-git tag -a v1.0.0 -m "Release version 1.0.0"
-
-# 4. Push main branch and tag to GitHub
-git push -u origin main
-git push origin v1.0.0
