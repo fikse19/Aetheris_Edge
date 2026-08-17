@@ -1,18 +1,2 @@
-echo "# Aetheris_Edge" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/fikse19/Aetheris_Edge.git
-git push -u origin main
-git remote -v
-git remote add origin https://github.com/your-user/your-repo.git
-git remote set-url origin https://github.com/your-user/your-repo.git
 git branch --show-current
 git status
-git checkout main
-git add .
-git commit -m "release: validated WSL build, wasm compatibility fix, and staging dry-run pass"
-git tag -a v1.0.0 -m "Aetheris Edge release: native + wasm green in WSL"
-git push origin main --tags
-git ls-remote --tags origin
