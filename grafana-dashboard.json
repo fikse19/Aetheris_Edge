@@ -1,0 +1,75 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "name": "Aetheris Edge Enterprise Real-Time ROI & Health",
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Cumulative Cloud Egress Dollars Saved ($USD)",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "aetheris_dc_egress_dollars_saved",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 2,
+      "title": "Software-Defined Heap Memory Allocation (Bytes)",
+      "type": "timeseries",
+      "targets": [
+        {
+          "expr": "aetheris_gateway_memory_allocated_bytes",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "id": 3,
+      "title": "Active Concurrent Processing Threads (Goroutines)",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "aetheris_gateway_active_goroutines",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "id": 4,
+      "title": "Estimated Energy Saved (kWh)",
+      "type": "stat",
+      "targets": [
+        {
+          "expr": "aetheris_dc_estimated_kwh_saved",
+          "refId": "A"
+        }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["aetheris-edge", "top-cover-group"],
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Aetheris Edge Telemetry Dashboard",
+  "version": 1
+}

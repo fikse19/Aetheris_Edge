@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zt-accelerated-gateway
+  namespace: default
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: zt-accelerated-gateway
+  template:
+    metadata:
+      labels:
+        app: zt-accelerated-gateway
+    spec:
+      hostNetwork: true
+      containers:
+        - name: gateway-core
+          image: enterprise/zt-satellite-orchestrator:latest
+          ports:
+            - containerPort: 8080
+              protocol: UDP
+              name: quic-udp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zt-accelerated-loadbalancer
+  namespace: default
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  selector:
+    app: zt-accelerated-gateway
+  ports:
+    - protocol: UDP
+      port: 8080
+      targetPort: 8080

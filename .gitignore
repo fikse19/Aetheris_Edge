@@ -1,0 +1,10 @@
+/target/
+/pkg/
+**/*.pem
+**/*.key
+**/*.sec
+**/.env
+**/.DS_Store
+*.tfstate
+*.tfstate.backup
+.terraform/

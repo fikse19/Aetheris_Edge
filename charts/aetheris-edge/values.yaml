@@ -1,0 +1,11 @@
+replicaCount: 4
+image:
+  repository: enterprise/zt-satellite-orchestrator
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  port: 8080
+networkPolicy:
+  enabled: true
+  ingressNamespaceLabel: trusted-ingress-zone
+  egressNamespaceLabel: internal-mesh-zone

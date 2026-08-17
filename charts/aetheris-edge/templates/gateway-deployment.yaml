@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gateway
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: zt-accelerated-gateway
+  template:
+    metadata:
+      labels:
+        app: zt-accelerated-gateway
+    spec:
+      hostNetwork: true
+      containers:
+        - name: gateway-core
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              protocol: UDP
+              name: quic-udp

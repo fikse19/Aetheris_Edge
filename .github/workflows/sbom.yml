@@ -1,0 +1,14 @@
+name: Generate Production SBOM
+
+on: [push]
+
+jobs:
+  build-sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: cyclonedx-sbom.json

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: aetheris-edge
+description: Helm chart for Aetheris Edge Zero-Trust Post-Quantum Gateway
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
