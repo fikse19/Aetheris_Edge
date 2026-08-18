@@ -1,10 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zt-accelerated-gateway
-  namespace: default
+  # Using the global Helm release name macro to avoid duplicate naming collisions
+  name: {{ .Release.Name }}-gateway
+  namespace: {{ .Release.Namespace | default "default" }}
+  labels:
+    app: zt-accelerated-gateway
 spec:
-  replicas: 4
+  # Pulling dynamically from your updated charts/aetheris-edge/values.yaml file
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: zt-accelerated-gateway
@@ -13,14 +17,25 @@ spec:
       labels:
         app: zt-accelerated-gateway
     spec:
+      # HOST-NETWORK MODE: Bypasses virtual overlays to bind directly to your machine's physical network cards
       hostNetwork: true
       containers:
-        - name: gateway-core
-          image: enterprise/zt-satellite-orchestrator:latest
-          ports:
-            - containerPort: 8080
-              protocol: UDP
-              name: quic-udp
+      - name: gateway-core
+        # Pulls from your private, authenticated AWS ECR registry path
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+          protocol: UDP
+          name: quic-udp
+        # System Resource Enforcements to prevent cluster memory bloat
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
