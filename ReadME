@@ -1,0 +1,19 @@
+git branch --show-current
+git status
+git checkout main
+git add .
+git commit -m "release: validated WSL build, wasm compatibility fix, and staging dry-run pass"
+git tag -a v1.0.0 -m "Aetheris Edge release: native + wasm green in WSL"
+git push origin main --tags
+git ls-remote --tags origin
+# 1. Create the release tag
+git tag -a v1.0.0 -m "Release version 1.0.0"
+
+# 2. Push your main branch code
+git push -u origin main
+
+# 3. Push the release tag
+git push origin v1.0.0
+
+# 4. Verify the tag reached GitHub
+git ls-remote --tags origin

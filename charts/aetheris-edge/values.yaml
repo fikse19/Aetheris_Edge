@@ -1,6 +1,7 @@
-replicaCount: 4
+replicaCount: 2
 image:
-  repository: enterprise/zt-satellite-orchestrator
+  # Updated custom AWS ECR Registry target mapping path
+  repository: 123456789.dkr.ecr.us-east-1.amazonaws.com/aetheris-edge
   tag: latest
   pullPolicy: IfNotPresent
 service:
