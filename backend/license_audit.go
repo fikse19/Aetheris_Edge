@@ -25,3 +25,20 @@ func AuditLicenseLifecycles(registry []LicenseMetadata) {
 		}
 	}
 }
+
+func main() {
+	sampleRegistry := []LicenseMetadata{
+		{
+			OrgName:   "Palo Alto Networks - Sandbox",
+			UserEmail: "secops@paloaltonetworks.com",
+			ValidTill: time.Now().AddDate(0, 0, 7),
+		},
+		{
+			OrgName:   "AST SpaceMobile - Ground Hub",
+			UserEmail: "network-ops@ast-science.com",
+			ValidTill: time.Now().AddDate(0, 0, 60),
+		},
+	}
+
+	AuditLicenseLifecycles(sampleRegistry)
+}
