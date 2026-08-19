@@ -26,7 +26,7 @@ func AuditLicenseLifecycles(registry []LicenseMetadata) {
 	}
 }
 
-func main() {
+func RunLicenseAudit() {
 	sampleRegistry := []LicenseMetadata{
 		{
 			OrgName:   "Palo Alto Networks - Sandbox",

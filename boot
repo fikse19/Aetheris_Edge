@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aetheris-edge-pod
+  labels:
+    app: zt-accelerated-gateway
+spec:
+  hostNetwork: true
+  containers:
+  - name: gateway-core
+    image: ://amazonaws.com
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 8080
+      protocol: UDP
+

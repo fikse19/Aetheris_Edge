@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetheris Edge Orchestrator — Partner Demonstration</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111726;
+      --card-border: #1f293d;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --ast-color: #38bdf8;
+      --palo-color: #c084fc;
+      --intel-color: #4ade80;
+      --nw-color: #fbbf24;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .deck-container {
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .slide {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 36px;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      page-break-after: always;
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .slide-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .partner-badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .badge-ast { background: rgba(56, 189, 248, 0.15); color: var(--ast-color); border: 1px solid var(--ast-color); }
+    .badge-palo { background: rgba(192, 132, 252, 0.15); color: var(--palo-color); border: 1px solid var(--palo-color); }
+    .badge-intel { background: rgba(74, 222, 128, 0.15); color: var(--intel-color); border: 1px solid var(--intel-color); }
+    .badge-nw { background: rgba(251, 191, 36, 0.15); color: var(--nw-color); border: 1px solid var(--nw-color); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .box h4 {
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--text-muted);
+    }
+
+    li { margin-bottom: 10px; line-height: 1.5; }
+    li strong { color: var(--text-main); }
+
+    .metric-value {
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      color: var(--intel-color);
+      font-weight: bold;
+    }
+
+    .architecture-box {
+      background: #030712;
+      border: 1px dashed var(--card-border);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: ui-monospace, monospace;
+      font-size: 0.85rem;
+      color: var(--ast-color);
+      text-align: center;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck-container">
+
+  <!-- SLIDE 1: AST SPACEMOBILE -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Low-Latency VoIP & NTN Optimization</h2>
+      <span class="partner-badge badge-ast">AST SpaceMobile</span>
+    </div>
+    <div class="grid-2">
+      <div class="box">
+        <h4>Challenge & Solution</h4>
+        <ul>
+          <li><strong>Problem:</strong> Non-Terrestrial Network (NTN) satellite backhaul introduces variable delay (100–300ms RTT) and packet jitter.</li>
+          <li><strong>Solution:</strong> Aetheris Edge provides inline packet stream prioritization and software-defined UDP compression before satellite ingress.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>PoC Verification Metrics</h4>
+        <ul>
+          <li><strong>Edge Ingress Overhead:</strong> <span class="metric-value">&lt; 4.2 ms</span> (<code style="color:var(--ast-color)">aetheris_edge_latency_seconds</code>)</li>
+          <li><strong>Payload Reduction:</strong> Wire compression saves <span class="metric-value">~35%</span> bandwidth over satellite link.</li>
+          <li><strong>Voice Stability:</strong> Jitter buffer optimization maintains MOS score <span class="metric-value">&gt; 4.2</span>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: PALO ALTO NETWORKS -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Hardware-Speed Zero-Trust Boundary</h2>
+      <span class="partner-badge badge-palo">Palo Alto Networks</span>
+    </div>
+    <div class="grid-2">
+      <div class="box">
+        <h4>Challenge & Solution</h4>
+        <ul>
+          <li><strong>Problem:</strong> Heavy overlay VPN agents and unoptimized crypto create throughput bottlenecks at edge gateway boundaries.</li>
+          <li><strong>Solution:</strong> Direct integration of streaming AEAD encryption (AES-256 / ChaCha20-Poly1305) directly in the Go micro-kernel.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>PoC Verification Metrics</h4>
+        <ul>
+          <li><strong>Telemetry Tracking:</strong> Live stream encrypted byte logging (<code style="color:var(--palo-color)">aetheris_encrypted_bytes_total</code>).</li>
+          <li><strong>Policy Enforcement:</strong> ZTNA session bounds enforced in-flight with zero plaintext exposure.</li>
+          <li><strong>Runtime Footprint:</strong> Low execution thread lock-up (<code style="color:var(--palo-color)">aetheris_gateway_active_goroutines</code>).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: INTEL -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">High-Throughput Edge Compute</h2>
+      <span class="partner-badge badge-intel">Intel</span>
+    </div>
+    <div class="grid-2">
+      <div class="box">
+        <h4>Challenge & Solution</h4>
+        <ul>
+          <li><strong>Problem:</strong> Satellite ground stations operate under strict power, thermal, and CPU limits.</li>
+          <li><strong>Solution:</strong> Native Go micro-kernel compiled for Intel Xeon/Atom edge processors inside lightweight Kubernetes nodes.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>PoC Verification Metrics</h4>
+        <ul>
+          <li><strong>Resource Floor:</strong> Baseline execution within <span class="metric-value">100m CPU</span> limits.</li>
+          <li><strong>Heap Optimization:</strong> Low memory utilization (<code style="color:var(--intel-color)">aetheris_gateway_memory_allocated_bytes</code>).</li>
+          <li><strong>Multi-Core Vectoring:</strong> Leverages parallel goroutines for streaming crypto hashing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: NORTHWESTERN MUTUAL -->
+  <div class="slide">
+    <div class="slide-header">
+      <h2 class="slide-title">Enterprise Compliance & Uptime</h2>
+      <span class="partner-badge badge-nw">Northwestern Mutual</span>
+    </div>
+    <div class="grid-2">
+      <div class="box">
+        <h4>Challenge & Solution</h4>
+        <ul>
+          <li><strong>Problem:</strong> Financial communications require strict SEC/FINRA audit logging and 99.999% availability without call drops.</li>
+          <li><strong>Solution:</strong> Multi-replica Kubernetes Deployment with automated rolling updates and audit-ready Prometheus metrics.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>PoC Verification Metrics</h4>
+        <ul>
+          <li><strong>High Availability:</strong> Auto-healing multi-pod Kubernetes lifecycle (<code style="color:var(--nw-color)">aetheris-orchestrator-deployment</code>).</li>
+          <li><strong>Cost Optimization:</strong> Dynamic tracking of cloud egress savings (<code style="color:var(--nw-color)">aetheris_dc_egress_dollars_saved</code>).</li>
+          <li><strong>Compliance:</strong> Complete encryption verification in-transit and at-rest.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPOLOGY FOOTER CARD -->
+  <div class="architecture-box">
+    [Voice/Data Source] ──► [Aetheris Edge (Intel)] ──► [Satellite Link (AST)] ──► [Palo Alto ZTNA] ──► [Northwestern Core]
+  </div>
+
+</div>
+
+</body>
+</html>

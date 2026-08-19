@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aetheris Edge — Intel Briefing</title>
+  <style>
+    @page { size: letter; margin: 0.5in; }
+    body { font-family: -apple-system, sans-serif; background: #0d1117; color: #c9d1d9; padding: 20px; line-height: 1.5; }
+    .header { border-bottom: 2px solid #4ade80; padding-bottom: 10px; margin-bottom: 20px; }
+    h1 { color: #ffffff; margin: 0; font-size: 1.8rem; }
+    .tag { color: #4ade80; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; }
+    .box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    h3 { color: #ffffff; margin-top: 0; }
+    .metric { color: #4ade80; font-family: monospace; font-weight: bold; }
+    .code { background: #010409; border: 1px solid #30363d; padding: 10px; font-family: monospace; color: #4ade80; border-radius: 4px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span class="tag">Executive Partner Briefing</span>
+    <h1>Aetheris Edge × Intel</h1>
+  </div>
+  <div class="box">
+    <h3>Core Challenge</h3>
+    <p>Satellite ground stations and edge gateways operate under strict power, thermal, and CPU constraints, requiring lightweight software runtimes.</p>
+  </div>
+  <div class="box">
+    <h3>Aetheris Technical Solution</h3>
+    <p>Statically compiled Go micro-kernel optimized for multi-core Intel Xeon/Atom edge processors running inside containerized Kubernetes clusters.</p>
+  </div>
+  <div class="box">
+    <h3>Target PoC Metrics</h3>
+    <ul>
+      <li><strong>CPU Footprint:</strong> Runs within a baseline <span class="metric">100m CPU limit</span></li>
+      <li><strong>Heap Allocation:</strong> Low, stable memory footprint (<span class="metric">aetheris_gateway_memory_allocated_bytes</span>)</li>
+      <li><strong>Parallelization:</strong> Multi-goroutine parallel crypto hashing</li>
+    </ul>
+  </div>
+  <div class="box">
+    <h3>Live Command Verification</h3>
+    <div class="code">kubectl top pod -l app=aetheris-orchestrator</div>
+  </div>
+</body>
+</html>

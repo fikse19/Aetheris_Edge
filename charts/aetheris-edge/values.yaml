@@ -1,7 +1,6 @@
 replicaCount: 2
 image:
-  # Updated custom AWS ECR Registry target mapping path
-  repository: 123456789.dkr.ecr.us-east-1.amazonaws.com/aetheris-edge
+  repository: ://amazonaws.com
   tag: latest
   pullPolicy: IfNotPresent
 service:
