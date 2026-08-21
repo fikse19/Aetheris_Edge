@@ -1,0 +1,9 @@
+# Default owner for everything in the repo
+*       @fikse19
+
+# Explicit lockdown on PQC cryptography, compression engine, and CI pipelines
+/src/crypto/              @fikse19
+/src/compression/         @fikse19
+.github/workflows/        @fikse19
+.cargo/                   @fikse19
+aetheris-edge.service     @fikse19
