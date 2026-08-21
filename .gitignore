@@ -8,3 +8,6 @@
 *.tfstate
 *.tfstate.backup
 .terraform/
+mldsa_master.pub
+*.key
+*.seed
