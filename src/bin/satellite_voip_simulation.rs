@@ -1,96 +1,32 @@
-use flate2::write::GzEncoder;
-use flate2::Compression;
-use pqcrypto_dilithium::dilithium2;
-use serde::{Deserialize, Serialize};
-use std::io::Write;
-use std::time::Instant;
-
-#[derive(Serialize, Deserialize, Debug)]
-struct TelephonyPayloadEnvelope {
-    call_session_id: String,
-    sequence_number: u64,
-    codec_type: String,
-    raw_audio_frames: Vec<u8>,
-}
-
-struct SatelliteSimLink {
-    current_latency_ms: u64,
-    packet_drop_rate: f32,
-}
-
-impl SatelliteSimLink {
-    fn evaluate_feedback_loop(&self) -> (&'static str, Compression) {
-        if self.current_latency_ms > 500 || self.packet_drop_rate > 0.05 {
-            (
-                "CRITICAL_DEGRADATION: SWITCHING TO HIGH-RATIO DELTA COMPRESSION",
-                Compression::best(),
-            )
-        } else {
-            (
-                "NOMINAL_LINK: MAINTAINING ULTRA-FAST STREAMING",
-                Compression::fast(),
-            )
-        }
-    }
-}
+use aetheris_core::{PqcEngine, CompressionEngine};
 
 fn main() {
-    println!("==================================================================");
-    println!("🛰️ AETHERIS EDGE SATELLITE & VOIP SIMULATION TEST BENCH");
-    println!("==================================================================");
+    println!("📡 Aetheris Edge Satellite VoIP Simulation");
 
-    let (public_key, secret_key) = dilithium2::keypair();
-    let license_claim_data = b"Org: AST-SpaceMobile-Pilot|UUID: NODE-ARM64-99X";
-    let signed_message = dilithium2::sign(license_claim_data, &secret_key);
-    let opened_message = dilithium2::open(&signed_message, &public_key).unwrap();
-    assert_eq!(opened_message.as_slice(), license_claim_data);
-    println!("🛡️ PQC Result: Post-quantum license signature verified successfully.");
+    // 1. Generate keys
+    let (pk, sk) = PqcEngine::generate_master_keys();
 
-    let raw_audio_frames = [0x80, 0x08, 0x12, 0x34]
-        .iter()
-        .copied()
-        .cycle()
-        .take(400)
-        .collect();
+    // 2. Mock raw PCM VoIP data
+    let raw_pcm = vec![120u8; 1308];
+    println!("🎤 Original VoIP Frame Size: {} bytes", raw_pcm.len());
 
-    let mock_voip_packet = TelephonyPayloadEnvelope {
-        call_session_id: "VOIP-CALL-AST-90210".to_string(),
-        sequence_number: 4192,
-        codec_type: "Opus-HD".to_string(),
-        raw_audio_frames,
-    };
-    let serialized_audio = serde_json::to_vec(&mock_voip_packet).unwrap();
-    let sat_link = SatelliteSimLink {
-        current_latency_ms: 580,
-        packet_drop_rate: 0.08,
-    };
-    let (feedback_msg, selected_compression) = sat_link.evaluate_feedback_loop();
-    println!(
-        "📡 Satellite Link State: {} (Measured Latency: {}ms)",
-        feedback_msg, sat_link.current_latency_ms
-    );
+    // 3. Compress frame
+    let compressed = CompressionEngine::compress_voip_frame(&raw_pcm);
+    println!("⚡ Compressed Payload Size: {} bytes", compressed.len());
 
-    let timer = Instant::now();
-    let mut encoder = GzEncoder::new(Vec::new(), selected_compression);
-    encoder.write_all(&serialized_audio).unwrap();
-    let optimized_wire_payload = encoder.finish().unwrap();
-    let duration = timer.elapsed();
+    let reduction = 100.0 * (1.0 - (compressed.len() as f64 / raw_pcm.len() as f64));
+    println!("📉 Bandwidth Reduction: {:.2}%", reduction);
 
-    println!("\n Closed-Loop Edge Optimization & Transit Metrics Result:");
-    println!(
-        "  - Original VoIP Payload Size : {} bytes",
-        serialized_audio.len()
-    );
-    println!(
-        "  - Optimized On-Wire Size     : {} bytes",
-        optimized_wire_payload.len()
-    );
-    println!(
-        "  - Net Bandwidth Efficiency   : {:.2}% Reduction Saved",
-        ((serialized_audio.len() as f64 - optimized_wire_payload.len() as f64)
-            / serialized_audio.len() as f64)
-            * 100.0
-    );
-    println!("  - Processing Execution Time  : {:?}", duration);
-    println!("------------------------------------------------------------------");
+    // 4. Sign compressed payload
+    let signature = PqcEngine::sign_payload(&sk, &compressed);
+    println!("✍️ PQC Signature Length: {} bytes", signature.len());
+
+    // 5. Verify signature
+    let valid = PqcEngine::verify_signature(&pk, &compressed, &signature);
+    if valid {
+        println!("🛡️ PQC Result: Post-quantum license signature verified successfully.");
+    } else {
+        eprintln!("❌ PQC Verification Failed!");
+        std::process::exit(1);
+    }
 }
