@@ -20,3 +20,6 @@ pqcrypto-traits = "0.3"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 tokio = { version = "1.0", default-features = false, features = ["sync", "time", "rt", "macros"] }
+
+[dependencies]
+aetheris-core = { path = "./aetheris-core" }
