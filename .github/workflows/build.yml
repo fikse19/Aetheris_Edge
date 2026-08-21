@@ -1,1 +1,50 @@
+name: Aetheris Edge Multi-Arch Build & Release
 
+on:
+  push:
+    branches: [ "main", "master" ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-arm64:
+    name: Cross-Compile ARM64 (aarch64-unknown-linux-gnu)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-unknown-linux-gnu
+
+      - name: Install Cross-Linker & QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu qemu-user
+
+      - name: Build ARM64 Release Binaries
+        run: cargo build --target aarch64-unknown-linux-gnu --release
+
+      - name: Test ARM64 Execution under QEMU
+        run: |
+          qemu-aarch64 -L /usr/aarch64-linux-gnu ./target/aarch64-unknown-linux-gnu/release/generate_master_keys
+          qemu-aarch64 -L /usr/aarch64-linux-gnu ./target/aarch64-unknown-linux-gnu/release/satellite_voip_simulation
+
+      - name: Package Binary Release Tarball
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          cd target/aarch64-unknown-linux-gnu/release
+          tar -czvf ../../../aetheris-edge-arm64.tar.gz generate_master_keys satellite_voip_simulation
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: aetheris-edge-arm64.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
